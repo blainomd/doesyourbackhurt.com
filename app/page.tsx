@@ -51,7 +51,7 @@ export default function Home() {
             <svg viewBox="0 0 40 40" className="w-6 h-6"><path d="M19 4C11 4 4 12 4 20C4 28 11 36 19 36" fill="currentColor" /><path d="M21 4C29 4 36 12 36 20C36 28 29 36 21 36" fill="currentColor" /></svg>
             <span className="text-lg font-bold tracking-tight">Does Your Back Hurt</span>
           </div>
-          <a href="#" className="text-sm text-teal font-medium hover:text-teal-dark transition-colors">Get Started</a>
+          <button onClick={() => document.getElementById('sh-chat-btn')?.click()} className="text-sm text-teal font-medium hover:text-teal-dark transition-colors cursor-pointer bg-transparent border-none">Get Started</button>
         </div>
       </nav>
 
