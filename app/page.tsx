@@ -196,6 +196,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Connector */}
+      <section id="connector" className="py-20 px-6 bg-white">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-teal-dark mb-4">
+            Get the Does Your Back Hurt connector
+          </h2>
+          <p className="text-teal-dark/70 text-lg mb-8 max-w-xl mx-auto">
+            Add the SolvingHealth connector to Claude and get instant access to care tools, HSA savings estimates, and physician-supervised programs.
+          </p>
+          <div className="bg-cream rounded-xl border border-teal/20 p-6 text-left max-w-lg mx-auto mb-8">
+            <p className="text-xs font-medium text-teal-dark/50 uppercase tracking-wider mb-3">Claude Desktop MCP Config</p>
+            <pre className="text-sm text-teal-dark overflow-x-auto whitespace-pre font-mono leading-relaxed">{`"doesyourbackhurt": {
+  "command": "npx",
+  "args": ["-y", "@anthropic-ai/mcp-remote",
+    "https://solvinghealth.com/mcp"]
+}`}</pre>
+          </div>
+          <p className="text-teal-dark/60 text-sm">
+            Don&apos;t have Claude? Get it free at{" "}
+            <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" className="text-teal font-medium hover:underline">claude.ai</a>
+            {" "}or use the chat and voice widgets on this page.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-teal/10 py-10 px-6">
         <div className="max-w-3xl mx-auto text-center">
