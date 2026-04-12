@@ -1,0 +1,13 @@
+{
+  "name": "Does Your Back Hurt",
+  "short_name": "BackPain",
+  "description": "Your back pain companion",
+  "start_url": "/?pwa=1",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0D7377",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
