@@ -57,6 +57,7 @@ export default function RootLayout({
           strategy="lazyOnload"
         />
 
+        <Script src="https://solvinghealth.com/footer.js" data-brand="condition-site" data-theme="light" strategy="lazyOnload" />
         <Analytics /></body>
     </html>
   );
