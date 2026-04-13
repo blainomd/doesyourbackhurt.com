@@ -40,23 +40,6 @@ export default function RootLayout({
       <body className="bg-white text-gray-900 antialiased">
         {children}
 
-        {/* Sage Chat Widget */}
-        <Script
-          src={`https://solvinghealth.com/widgets/sage-chat.js?channel=${siteConfig.chatChannel}`}
-          strategy="lazyOnload"
-        />
-
-        {/* Gemini Voice Widget */}
-        <Script
-          src={`https://solvinghealth.com/widgets/gemini-voice.js?site=${siteConfig.voiceSite}`}
-          strategy="lazyOnload"
-        />
-        <Script
-          src="https://chanio.com/sdk.js"
-          data-site={siteConfig.chatChannel}
-          strategy="lazyOnload"
-        />
-
         <Script src="https://solvinghealth.com/footer.js" data-brand="condition-site" data-theme="light" strategy="lazyOnload" />
         <Analytics /></body>
     </html>
