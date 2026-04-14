@@ -4,6 +4,7 @@ import { useState } from "react";
 import { siteConfig } from "@/site.config";
 import Community from "@/app/components/Community";
 import Assessment from "@/app/components/Assessment";
+import PersonalizationCheckout from "@/app/components/PersonalizationCheckout";
 
 /* ─── Icon Components ─────────────────────────────────────────────── */
 
@@ -1009,6 +1010,17 @@ export default function Home() {
             </a>
           </p>
         </div>
+      </section>
+
+      {/* ── Personalization Checkout ────────────────────────────── */}
+      <section className="max-w-3xl mx-auto px-4 pb-10">
+        <PersonalizationCheckout
+          context="back pain"
+          recommendedCategory="TENS units, ergonomic equipment, PT"
+          primaryColor={siteConfig.primaryColor}
+          accentColor={siteConfig.accentColor}
+          siteDomain="doesyourbackhurt.com"
+        />
       </section>
 
       {/* ── Footer ─────────────────────────────────────────────── */}
