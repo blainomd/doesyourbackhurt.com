@@ -5,6 +5,9 @@ import { siteConfig } from "@/site.config";
 import Community from "@/app/components/Community";
 import Assessment from "@/app/components/Assessment";
 import PersonalizationCheckout from "@/app/components/PersonalizationCheckout";
+import { FAQ } from "@/app/components/FAQ";
+import { DeepDive } from "@/app/components/DeepDive";
+import { TrustSignals } from "@/app/components/TrustSignals";
 
 /* ─── Icon Components ─────────────────────────────────────────────── */
 
@@ -1022,6 +1025,15 @@ export default function Home() {
           siteDomain="doesyourbackhurt.com"
         />
       </section>
+
+      {/* ── Deep Dive Articles ─────────────────────────────────── */}
+      <DeepDive />
+
+      {/* ── FAQ ────────────────────────────────────────────────── */}
+      <FAQ />
+
+      {/* ── Trust Signals ──────────────────────────────────────── */}
+      <TrustSignals />
 
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="py-12 border-t border-gray-100">
