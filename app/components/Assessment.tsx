@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { siteConfig } from "@/site.config";
+import PersonalizationCheckout from "@/app/components/PersonalizationCheckout";
 
 interface Question {
   id: number;
@@ -152,7 +153,8 @@ function getResult(score: number, hasRedFlag: boolean): Result {
 }
 
 export default function Assessment() {
-  const [started, setStarted] = useState(false);
+  // Onboarding IS learning: land on Q1 immediately, no idle "Start" gate.
+  const [started, setStarted] = useState(true);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<{ questionId: number; points: number; redFlag?: boolean }[]>([]);
   const [selected, setSelected] = useState<{ points: number; redFlag?: boolean } | null>(null);
@@ -258,6 +260,14 @@ export default function Assessment() {
             </button>
           </div>
         </div>
+
+        <PersonalizationCheckout
+          context="back pain"
+          recommendedCategory="TENS units, lumbar support pillows, ergonomic equipment, heat therapy, home PT tools"
+          primaryColor={siteConfig.primaryColor}
+          accentColor={siteConfig.accentColor}
+          siteDomain="doesyourbackhurt.com"
+        />
       </div>
     );
   }
