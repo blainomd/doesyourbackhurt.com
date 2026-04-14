@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { siteConfig } from "@/site.config";
+import Community from "@/app/components/Community";
 import Assessment from "@/app/components/Assessment";
 
 /* ─── Icon Components ─────────────────────────────────────────────── */
@@ -783,6 +784,9 @@ export default function Home() {
 
       {/* ── Doctor Visit Companion ─────────────────────────────── */}
       <DoctorVisitCompanion />
+
+      {/* ── Community: We Help Each Other ─────────────────────── */}
+      <Community />
 
       {/* ── Find a Specialist (NPI Search) ────────────────────── */}
       <FindSpecialist />
