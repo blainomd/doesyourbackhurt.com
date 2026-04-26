@@ -595,8 +595,36 @@ export default function Home() {
     "https://solvinghealth.com/mcp"]
 }`;
 
+  const medicalConditionSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalCondition",
+    name: "Lower Back Pain",
+    alternateName: ["Lumbago", "Sciatica", "Herniated Disc", "Spinal Stenosis"],
+    description: siteConfig.description,
+    url: `https://${siteConfig.domain}`,
+    possibleTreatment: [
+      { "@type": "MedicalTherapy", name: "Physical Therapy" },
+      { "@type": "MedicalTherapy", name: "Anti-Inflammatory Medication" },
+      { "@type": "MedicalTherapy", name: "Heat and Ice Therapy" },
+      { "@type": "MedicalTherapy", name: "Core Strengthening Exercise" },
+      { "@type": "MedicalTherapy", name: "Spine Surgery" },
+    ],
+    signOrSymptom: siteConfig.warningSigns.map((s) => ({
+      "@type": "MedicalSignOrSymptom",
+      name: s,
+    })),
+    relevantSpecialty: {
+      "@type": "MedicalSpecialty",
+      name: "Orthopedic Surgery",
+    },
+  };
+
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalConditionSchema) }}
+      />
       {/* ── Header ─────────────────────────────────────────────── */}
       <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
