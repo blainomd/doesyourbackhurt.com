@@ -1121,6 +1121,14 @@ export default function Home() {
               >
                 co-op.care
               </a>
+              <a
+                href="https://co-op.care/manifesto"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gray-900 transition-colors"
+              >
+                Read the manifesto →
+              </a>
             </div>
           </div>
           <div className="mt-8 pt-6 border-t border-gray-50 text-center">
