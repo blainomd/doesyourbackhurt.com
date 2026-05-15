@@ -9,6 +9,77 @@ import { FAQ } from "@/app/components/FAQ";
 import { DeepDive } from "@/app/components/DeepDive";
 import { TrustSignals } from "@/app/components/TrustSignals";
 
+/* ─── Email Capture ───────────────────────────────────────────────── */
+
+function EmailCapture() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setStatus("loading");
+    try {
+      const r = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const ok = r.ok || r.status === 201;
+      if (!ok) {
+        const b = await r.json().catch(() => ({}));
+        if ((b as { code?: string })?.code !== "23505") throw new Error();
+      }
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <section className="py-14 border-t border-gray-100">
+      <div className="max-w-xl mx-auto px-6 text-center">
+        <h2 className="text-lg font-bold mb-1" style={{ color: siteConfig.accentColor }}>
+          Stay informed on back pain
+        </h2>
+        <p className="text-gray-500 text-sm mb-6">
+          New research, care options, and HSA tips — sent when it matters.
+        </p>
+        {status === "success" ? (
+          <p className="font-medium text-sm" style={{ color: siteConfig.primaryColor }}>
+            You&apos;re on the list. We&apos;ll be in touch.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <input
+              type="email"
+              required
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 bg-white"
+              style={{ "--tw-ring-color": siteConfig.primaryColor } as React.CSSProperties}
+            />
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-60"
+              style={{ backgroundColor: siteConfig.primaryColor }}
+            >
+              {status === "loading" ? "Joining…" : "Stay updated"}
+            </button>
+          </form>
+        )}
+        {status === "error" && (
+          <p className="text-red-500 text-xs mt-3">Something went wrong. Please try again.</p>
+        )}
+        <p className="text-xs text-gray-400 mt-3">No spam. No selling your data.</p>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Icon Components ─────────────────────────────────────────────── */
 
 function HeartPulseIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -1087,6 +1158,9 @@ export default function Home() {
 
       {/* ── Trust Signals ──────────────────────────────────────── */}
       <TrustSignals />
+
+      {/* ── Email Capture ──────────────────────────────────────── */}
+      <EmailCapture />
 
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="py-12 border-t border-gray-100">
