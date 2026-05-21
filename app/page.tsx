@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { siteConfig } from "@/site.config";
+import { FAQ } from "@/app/components/FAQ";
 
 /* ─── Types ───────────────────────────────────────────────────────── */
 
@@ -144,6 +145,77 @@ function StepHeader({ n, label }: { n: number; label: string }) {
       <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Question {n} of 4</p>
       <h2 className="text-xl font-bold mb-6" style={{ color: siteConfig.accentColor }}>{label}</h2>
     </>
+  );
+}
+
+/* ─── Email Capture ───────────────────────────────────────────────── */
+
+function EmailCapture() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setStatus("loading");
+    try {
+      const r = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      const ok = r.ok || r.status === 201;
+      if (!ok) {
+        const b = await r.json().catch(() => ({}));
+        if ((b as { code?: string })?.code !== "23505") throw new Error();
+      }
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <section className="py-14 border-t border-gray-100">
+      <div className="max-w-xl mx-auto px-6 text-center">
+        <h2 className="text-lg font-bold mb-1" style={{ color: siteConfig.accentColor }}>
+          Stay informed on back pain
+        </h2>
+        <p className="text-gray-500 text-sm mb-6">
+          New research, care options, and HSA tips — sent when it matters.
+        </p>
+        {status === "success" ? (
+          <p className="font-medium text-sm" style={{ color: siteConfig.primaryColor }}>
+            You&apos;re on the list. We&apos;ll be in touch.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <input
+              type="email"
+              required
+              placeholder="your@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 bg-white"
+              style={{ "--tw-ring-color": siteConfig.primaryColor } as React.CSSProperties}
+            />
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-60"
+              style={{ backgroundColor: siteConfig.primaryColor }}
+            >
+              {status === "loading" ? "Joining…" : "Stay updated"}
+            </button>
+          </form>
+        )}
+        {status === "error" && (
+          <p className="text-red-500 text-xs mt-3">Something went wrong. Please try again.</p>
+        )}
+        <p className="text-xs text-gray-400 mt-3">No spam. No selling your data.</p>
+      </div>
+    </section>
   );
 }
 
@@ -388,6 +460,65 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Condition cards — key clinical education */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-2" style={{ color: siteConfig.accentColor }}>What you should know</h2>
+          <p className="text-center text-gray-500 text-sm mb-10 max-w-xl mx-auto">Key conditions and treatment paths — so you walk in informed.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {siteConfig.sections.map((section, i) => {
+              const href = (section as { href?: string }).href;
+              const isExternal = !!href && /^https?:\/\//.test(href);
+              const inner = (
+                <>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-xs mb-3" style={{ backgroundColor: siteConfig.primaryColor }}>{i + 1}</div>
+                  <h3 className="text-base font-bold mb-1.5" style={{ color: siteConfig.accentColor }}>{section.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{section.description}</p>
+                  {href && <span className="inline-block mt-2 text-xs font-medium" style={{ color: siteConfig.primaryColor }}>{isExternal ? "Learn more →" : "Ask Sage →"}</span>}
+                </>
+              );
+              return href ? (
+                <a key={i} href={href} {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="block bg-white rounded-xl p-5 border border-gray-100 hover:shadow-md transition-all">
+                  {inner}
+                </a>
+              ) : (
+                <div key={i} className="bg-white rounded-xl p-5 border border-gray-100">{inner}</div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Warning signs */}
+      <section className="py-16 px-6 bg-amber-50/60">
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <svg className="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            <h2 className="text-2xl font-bold" style={{ color: siteConfig.accentColor }}>When to seek care immediately</h2>
+          </div>
+          <p className="text-center text-gray-500 text-sm mb-8">See a healthcare provider or go to urgent care if you have any of these.</p>
+          <div className="space-y-3">
+            {siteConfig.warningSigns.map((sign: string, i: number) => (
+              <div key={i} className="flex items-start gap-4 p-4 bg-white rounded-xl border border-amber-100">
+                <div className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-amber-700 text-xs font-bold">{i + 1}</span>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">{sign}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <FAQ />
+
+      {/* Email capture */}
+      <EmailCapture />
 
       {/* Footer */}
       <footer className="py-10 px-6 border-t border-gray-100">
