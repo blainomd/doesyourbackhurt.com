@@ -1,9 +1,24 @@
 import type { Metadata } from "next";
+import { Manrope, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import { siteConfig } from "@/site.config";
 import { JsonLd } from "./components/JsonLd";
 import "./globals.css";
+
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${siteConfig.domain}`),
@@ -45,12 +60,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
         <link rel="manifest" href="/manifest.json" />
         <JsonLd
           conditionName="Back Pain"
@@ -63,7 +74,7 @@ export default function RootLayout({
       <body className="bg-white text-gray-900 antialiased">
         {children}
 
-        <Script src="https://harnesshealth.ai/footer.js?v=10" data-brand="condition-site" data-theme="light" strategy="lazyOnload" />
+        <Script src="https://harnesshealth.ai/footer.js?v=10" data-brand="doesyourbackhurt" data-theme="light" strategy="lazyOnload" />
         <Analytics /></body>
     </html>
   );
