@@ -19,9 +19,9 @@ export const siteConfig = {
   voiceSite: "doesyourbackhurt",
 
   // ── Hero Section ───────────────────────────────────────────
-  heroTitle: "Most back pain\nis not surgical.\nKnowing is the value.",
+  heroTitle: "Most back pain\nis not surgical.\nSeeing that clearly changes what you do next.",
   heroSubtitle:
-    "Five-minute AI triage. Physician-reviewed. Free — so you go in informed, not guessing.",
+    "AI explains what your pain pattern means for you. A physician attests the right next step — PT, imaging, or specialist — so you go in informed, not guessing.",
 
   // ── Risk Factors / Key Information ─────────────────────────
   sections: [
