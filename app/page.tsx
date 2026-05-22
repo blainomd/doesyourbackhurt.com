@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { siteConfig } from "@/site.config";
 import { FAQ } from "@/app/components/FAQ";
 
@@ -389,7 +389,22 @@ const schema = {
 
 /* ─── Page ────────────────────────────────────────────────────────── */
 
+/* ── Scroll-reveal hook ─────────────────────────────────────────── */
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal");
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); } }); },
+      { threshold: 0.12 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
 export default function Home() {
+  useReveal();
   return (
     <div className="min-h-screen bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
@@ -411,19 +426,27 @@ export default function Home() {
       {/* Hero */}
       <section className="pt-28 pb-16 px-6" style={{ backgroundColor: siteConfig.accentColor }}>
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-black text-white leading-tight tracking-tight whitespace-pre-line">
+          <h1 className="hero-h1 font-black text-white whitespace-pre-line">
             {siteConfig.heroTitle}
           </h1>
-          <p className="mt-5 text-base text-gray-300 max-w-xl mx-auto leading-relaxed">
+          <p className="reveal reveal-delay-1 mt-5 text-base text-gray-300 max-w-xl mx-auto leading-relaxed">
             {siteConfig.heroSubtitle}
           </p>
-          <a
-            href="#assessment"
-            className="mt-8 inline-flex items-center px-8 py-4 rounded-xl text-base font-bold text-white transition-all hover:opacity-90 shadow-lg"
-            style={{ backgroundColor: siteConfig.primaryColor }}
-          >
-            Start the assessment <ChevronRight />
-          </a>
+          <div className="reveal reveal-delay-2 mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="#assessment"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold text-white transition-all hover:scale-105 shadow-lg"
+              style={{ backgroundColor: siteConfig.primaryColor }}
+            >
+              Start the assessment — free <ChevronRight />
+            </a>
+            <a
+              href="#chat"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold border-2 border-white/30 text-white transition-all hover:bg-white/10"
+            >
+              Ask Sage
+            </a>
+          </div>
         </div>
       </section>
 
@@ -451,7 +474,7 @@ export default function Home() {
               { label: "Chronic pain", desc: "Months or years of pain — track PT progress and adherence", site: "jointcoach.com", href: "https://www.jointcoach.com" },
               { label: "Care coordination", desc: "Need help navigating next steps", site: "co-op.care", href: "https://www.co-op.care" },
             ].map(({ label, desc, site, href }) => (
-              <a key={site} href={href} target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl p-5 text-left transition-all">
+              <a key={site} href={href} target="_blank" rel="noopener noreferrer" className="reveal card-lift bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl p-5 text-left">
                 <p className="text-white font-semibold text-sm mb-1">{label}</p>
                 <p className="text-gray-300 text-xs">{desc}</p>
                 <p className="text-white text-xs mt-3 font-medium">{site} &rarr;</p>
@@ -464,7 +487,7 @@ export default function Home() {
       {/* Condition cards — key clinical education */}
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-2" style={{ color: siteConfig.accentColor }}>What you should know</h2>
+          <h2 className="reveal section-heading text-2xl font-bold text-center mb-2" style={{ color: siteConfig.accentColor }}>What you should know</h2>
           <p className="text-center text-gray-500 text-sm mb-10 max-w-xl mx-auto">Key conditions and treatment paths — so you walk in informed.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {siteConfig.sections.map((section, i) => {
@@ -480,11 +503,11 @@ export default function Home() {
               );
               return href ? (
                 <a key={i} href={href} {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="block bg-white rounded-xl p-5 border border-gray-100 hover:shadow-md transition-all">
+                  className="reveal block bg-white rounded-xl p-5 border border-gray-100 card-lift">
                   {inner}
                 </a>
               ) : (
-                <div key={i} className="bg-white rounded-xl p-5 border border-gray-100">{inner}</div>
+                <div key={i} className="reveal bg-white rounded-xl p-5 border border-gray-100 card-lift">{inner}</div>
               );
             })}
           </div>
