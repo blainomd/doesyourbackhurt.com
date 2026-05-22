@@ -26,49 +26,49 @@ export const siteConfig = {
   // ── Risk Factors / Key Information ─────────────────────────
   sections: [
     {
-      title: "Herniated Disc",
+      title: "Herniated Disc (Sciatica)",
       description:
-        "A disc that bulges or ruptures and presses on nearby nerves. Causes sharp pain, numbness, or weakness that may radiate down one or both legs. Most common in the lower back.",
-      href: "#chat",
-    },
-    {
-      title: "Sciatica",
-      description:
-        "Pain that radiates along the sciatic nerve from the lower back through the hip and down the leg. Often caused by a herniated disc or bone spur compressing the nerve.",
-      href: "#chat",
+        "Pain radiating from the low back down one leg is caused by disc herniation pressing on a nerve root. L5–S1 disc herniation causes pain down the back of the leg into the heel. Approximately 90% of sciatica patients recover without surgery within 3 months. Surgery (microdiscectomy) provides faster leg pain relief but does not improve 1–2 year outcomes compared to conservative care. (SPORT Trials, NEJM)",
+      href: "#assessment",
     },
     {
       title: "Spinal Stenosis",
       description:
-        "Narrowing of the spinal canal that puts pressure on the spinal cord and nerves. Causes pain, numbness, or weakness, especially with prolonged standing or walking.",
-      href: "#chat",
+        "Narrowing of the spinal canal that compresses nerve roots. Classic presentation: leg pain, cramping, or weakness that worsens with standing and walking and relieves with sitting or forward bending. People often describe relief when pushing a shopping cart. Most patients manage well without surgery. Physical therapy with flexion-based exercises and epidural steroid injections are first-line. (SPORT Trials; AAOS Stenosis Guideline)",
+      href: "#assessment",
     },
     {
-      title: "Muscle Strain",
+      title: "Muscle Strain and Nonspecific LBP",
       description:
-        "The most common cause of back pain. Overstretching or tearing of back muscles or ligaments, often from heavy lifting or sudden awkward movement. Usually improves within weeks.",
-      href: "#chat",
+        "Nonspecific low back pain — where no specific structural cause is identified — accounts for 90–95% of back pain seen in primary care. Most acute cases resolve within 4–6 weeks with rest, heat, NSAIDs, and continued activity. Bed rest delays recovery. Heat applied to the low back is the most evidence-supported physical modality for acute LBP. (ACP 2017; StatPearls NBK538173)",
+      href: "#assessment",
     },
     {
-      title: "Non-Surgical Treatment",
+      title: "Chronic Back Pain",
       description:
-        "Physical therapy, anti-inflammatory medications, heat and ice therapy, and core strengthening exercises resolve most back pain without surgery.",
+        "Chronic low back pain (>3 months) affects 23% of adults worldwide and is the leading cause of disability globally. Exercise therapy and cognitive behavioral therapy are evidence-based first-line treatments. TENS units, passive modalities, and long-term opioids are not recommended. Pain does not equal damage — a sensitized nervous system drives most chronic LBP. (WHO GBD; ACP 2017)",
+      href: "#pain-duration",
+    },
+    {
+      title: "Physical Therapy: What Works",
+      description:
+        "PT (6–12 sessions) combining individual exercise, manual therapy, and pain neuroscience education is as effective as surgery for most disc herniation and stenosis patients at 1–2 years. McKenzie extension exercises help when pain centralizes with extension. Flexion-based exercises (pelvic tilts, knee hugs) help stenosis. Core stabilization (plank, bird-dog, dead bug) reduces chronic LBP. A PT should identify your directional preference first. (APTA 2021)",
       href: "https://kineticfirst.com/?ref=doesyourbackhurt",
     },
     {
-      title: "When to See a Specialist",
+      title: "When Surgery is Actually Indicated",
       description:
-        "If back pain is severe, lasts longer than six weeks, radiates down the leg, or is accompanied by weakness or bladder/bowel changes, a spine evaluation is warranted.",
-      href: "https://harnesshealth.ai/find?specialty=orthopedic-surgery",
+        "Surgery helps a minority of back pain patients — but helps dramatically when appropriate. Microdiscectomy for sciatica with persistent neurological deficit after 6 weeks. Decompression laminectomy for stenosis causing disabling neurogenic claudication. Spinal fusion for structural instability or progressive deformity — NOT for nonspecific back pain. Failed back surgery syndrome occurs in 10–40% of fusions for nonspecific pain. (SPORT Trials; Cochrane Spinal Fusion Review 2021)",
+      href: "https://surgeonvalue.com",
     },
   ],
 
   // ── Conversation Starters ──────────────────────────────────
   conversationStarters: [
-    "What's causing my back pain?",
-    "Do I have a herniated disc?",
-    "What exercises help back pain?",
-    "Should I see a spine specialist?",
+    "My pain shoots down my leg — is that sciatica?",
+    "Should I get an MRI for my back pain?",
+    "What exercises actually help back pain?",
+    "How do I know if I need back surgery?",
   ],
 
   // ── Warning Signs ──────────────────────────────────────────

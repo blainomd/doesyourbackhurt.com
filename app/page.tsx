@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { siteConfig } from "@/site.config";
 import { FAQ } from "@/app/components/FAQ";
+import { BackPainDuration } from "@/app/components/BackPainDuration";
 import SpineMap, { type SpineRegion } from "@/app/components/SpineMap";
 
 /* ─── Types ───────────────────────────────────────────────────────── */
@@ -518,6 +519,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Back Pain Duration: Acute vs Subacute vs Chronic */}
+      <BackPainDuration />
 
       {/* Warning signs */}
       <section className="py-16 px-6 bg-amber-50/60">
