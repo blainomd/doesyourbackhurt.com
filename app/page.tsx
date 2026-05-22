@@ -3,17 +3,17 @@
 import { useState, useEffect } from "react";
 import { siteConfig } from "@/site.config";
 import { FAQ } from "@/app/components/FAQ";
+import SpineMap, { type SpineRegion } from "@/app/components/SpineMap";
 
 /* ─── Types ───────────────────────────────────────────────────────── */
 
 type Step = "start" | "q1" | "q2" | "q3" | "q4" | "result";
-type Location = "neck" | "upper" | "lower" | "all_over";
 type Duration = "days" | "weeks" | "months" | "years";
-type RedFlag = "bowel_bladder" | "fever" | "trauma" | "none";
+type RedFlag = "bowel_bladder" | "saddle" | "fever" | "trauma" | "none";
 type Character = "sharp_shooting" | "dull_aching" | "stiffness" | "constant";
 
 interface Answers {
-  location: Location | null;
+  location: SpineRegion | null;
   duration: Duration | null;
   redFlag: RedFlag | null;
   character: Character | null;
@@ -24,7 +24,10 @@ type Route = "urgent" | "structural" | "inflammatory" | "chronic" | "acute_muscl
 /* ─── Routing ─────────────────────────────────────────────────────── */
 
 function computeRoute(a: Answers): Route {
+  // Red flags always win — these can signal a surgical emergency.
   if (a.redFlag && a.redFlag !== "none") return "urgent";
+  // Pain that travels down the leg points to nerve/disc involvement.
+  if (a.location === "radiating") return "structural";
   if (a.character === "sharp_shooting") return "structural";
   if (a.character === "stiffness" || a.character === "constant") return "inflammatory";
   if (a.duration === "months" || a.duration === "years") return "chronic";
@@ -35,8 +38,8 @@ function computeRoute(a: Answers): Route {
 
 const ROUTES: Record<Route, { headline: string; body: string; cta: string; href: string; urgent: boolean }> = {
   urgent: {
-    headline: "This needs urgent evaluation.",
-    body: "The symptom you described — bowel or bladder changes, fever, or recent trauma — can signal a serious condition. Do not wait. Call your doctor or go to urgent care today.",
+    headline: "This needs urgent evaluation — today.",
+    body: "The symptom you described — bowel or bladder changes, saddle numbness, fever, or recent trauma — can signal a serious condition such as cauda equina syndrome, infection, or fracture. These are time-sensitive. Do not wait for an appointment: go to an emergency department or urgent care now.",
     cta: "Find urgent care near you",
     href: "https://www.zocdoc.com/search?reason_visit=back-pain",
     urgent: true,
@@ -252,17 +255,18 @@ function Assessment() {
         </div>
       )}
 
-      {/* Q1: Location */}
+      {/* Q1: Location — interactive spine map */}
       {step === "q1" && (
         <div>
           <Progress step={step} />
-          <StepHeader n={1} label="Where does it hurt?" />
-          <div className="space-y-3">
-            <OptionBtn label="Neck / cervical spine" sub="Upper back of the neck, between the shoulders" selected={answers.location === "neck"} onClick={() => setAnswers(a => ({ ...a, location: "neck" }))} />
-            <OptionBtn label="Mid-back / thoracic spine" sub="Between the shoulder blades" selected={answers.location === "upper"} onClick={() => setAnswers(a => ({ ...a, location: "upper" }))} />
-            <OptionBtn label="Lower back / lumbar spine" sub="Belt-line area, most common" selected={answers.location === "lower"} onClick={() => setAnswers(a => ({ ...a, location: "lower" }))} />
-            <OptionBtn label="All over / hard to pinpoint" selected={answers.location === "all_over"} onClick={() => setAnswers(a => ({ ...a, location: "all_over" }))} />
-          </div>
+          <StepHeader n={1} label="Point to where it hurts" />
+          <p className="text-sm text-gray-500 -mt-4 mb-6">
+            Where the pain sits is the single most useful clue. Tap the diagram or pick a region.
+          </p>
+          <SpineMap
+            selected={answers.location}
+            onSelect={(r) => setAnswers(a => ({ ...a, location: r }))}
+          />
           <div className="mt-6 flex justify-end">
             <Btn disabled={!answers.location} onClick={() => setStep("q2")}>Next <ChevronRight /></Btn>
           </div>
@@ -295,6 +299,7 @@ function Assessment() {
           <p className="text-sm text-gray-500 -mt-4 mb-6">Select the one that best applies. If none, choose the last option.</p>
           <div className="space-y-3">
             <OptionBtn label="Bowel or bladder problems" sub="New loss of control or inability to go" selected={answers.redFlag === "bowel_bladder"} onClick={() => setAnswers(a => ({ ...a, redFlag: "bowel_bladder" }))} />
+            <OptionBtn label="Numbness in the groin or inner thighs" sub="Saddle anesthesia — numbness where you'd sit on a saddle" selected={answers.redFlag === "saddle"} onClick={() => setAnswers(a => ({ ...a, redFlag: "saddle" }))} />
             <OptionBtn label="Fever with back pain" sub="Temperature over 101°F alongside the pain" selected={answers.redFlag === "fever"} onClick={() => setAnswers(a => ({ ...a, redFlag: "fever" }))} />
             <OptionBtn label="Recent trauma or injury" sub="Fall, accident, or direct impact" selected={answers.redFlag === "trauma"} onClick={() => setAnswers(a => ({ ...a, redFlag: "trauma" }))} />
             <OptionBtn label="None of these" selected={answers.redFlag === "none"} onClick={() => setAnswers(a => ({ ...a, redFlag: "none" }))} />
@@ -441,10 +446,10 @@ export default function Home() {
               Start the assessment — free <ChevronRight />
             </a>
             <a
-              href="#chat"
+              href="#learn"
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-bold border-2 border-white/30 text-white transition-all hover:bg-white/10"
             >
-              Ask Sage
+              Understand the causes
             </a>
           </div>
         </div>
@@ -485,7 +490,7 @@ export default function Home() {
       </section>
 
       {/* Condition cards — key clinical education */}
-      <section className="py-16 px-6 bg-gray-50">
+      <section id="learn" className="py-16 px-6 bg-gray-50 scroll-mt-16">
         <div className="max-w-4xl mx-auto">
           <h2 className="reveal section-heading text-2xl font-bold text-center mb-2" style={{ color: siteConfig.accentColor }}>What you should know</h2>
           <p className="text-center text-gray-500 text-sm mb-10 max-w-xl mx-auto">Key conditions and treatment paths — so you walk in informed.</p>
